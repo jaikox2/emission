@@ -1,0 +1,18 @@
+{
+  "name": "emissions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "author": "Pang Dev",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^8.1.0",
+    "eslint-config-google": "^0.14.0"
+  }
+}
