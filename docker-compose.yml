@@ -1,0 +1,29 @@
+version: "3"
+services:
+ app:
+   restart: always
+   image: iris:latest
+   ports:
+     - 3000:3000
+   env_file:
+     - .env.example
+   volumes:
+     - /data/app/uploads/:/home/node/app/uploads/
+   networks:
+     - iris_network2
+  
+ database:
+   restart: always
+   image: postgres:12-alpine
+   environment:
+     POSTGRES_USER: iris_user
+     POSTGRES_PASSWORD: iris_pass
+     POSTGRES_DB: bot_services
+   volumes:
+     - /data/postgresql:/var/lib/postgresql/data/
+   networks:
+     - iris_network2
+
+networks:
+ iris_network2:
+   external: true
