@@ -15,27 +15,21 @@ app.use(logger('dev', {
   skip: (req, res) => (res.statusCode < 400),
 }));
 
-// routers
-const uploadRoute = require('./routes/upload');
+// public route
+app.use('/api', require('./routes/upload'));
+app.use('/api', require('./routes/authentication'));
 
-// use routers need cors
-app.use('/api', uploadRoute);
-app.use('/api', (req, res, next) => {
-  try {
-    res.send('emission app');
-  } catch (error) {
-    error.status = 500;
-    next(error);
-  }
-});
+// authorize middleware
+app.use(require('./middlewares/authen'));
+
+// permission route
+app.use('/api/users', require('./routes/user'));
 
 // error handler
 app.use((err, req, res, next) => {
   if (err.status === 500) {
     console.error(err);
-    return res.status(500).send({
-      message: 'ข้อผิดพลาดของเซิร์ฟเวอร์',
-    });
+    return res.status(500).send('ข้อผิดพลาดของเซิร์ฟเวอร์');
   }
   return next(err);
 });
@@ -43,9 +37,7 @@ app.use((err, req, res, next) => {
 // server error
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
-  res.status(500).send({
-    message: err.message,
-  });
+  res.status(400).send(err.message);
 });
 
 // app listen
