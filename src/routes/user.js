@@ -1,8 +1,10 @@
 const router = require('express').Router();
 
 const {
-  createUser, updateUser, deleteUser, findUsers, findOneUser,
+  createUser, updateUser, deleteUser, findUsers, findOneUser, countUsers,
 } = require('../models/users');
+
+const { calculatePages } = require('../services/pagination');
 
 router.post('/', async (req, res, next) => {
   try {
@@ -63,9 +65,15 @@ router.get('/:id', async (req, res, next) => {
 
 router.get('/', async (req, res, next) => {
   try {
-    const result = await findUsers();
+    const { page = 1, order = 'desc', search } = req.query;
 
-    res.status(200).send(result);
+    const result = await findUsers(page, order, search);
+
+    const total = await countUsers();
+
+    const pages = calculatePages(total);
+
+    res.status(200).send({ data: result, pages });
   } catch (error) {
     error.status = 500;
     next(error);

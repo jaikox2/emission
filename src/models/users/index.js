@@ -2,6 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 
 const { user } = new PrismaClient();
 const { hashPassword } = require('../../services/bcrypt');
+const { calculateSkip } = require('../../services/pagination');
 
 const select = {
   id: true,
@@ -69,10 +70,41 @@ async function deleteUser(id) {
   }
 }
 
-function findUsers() {
+function findUsers(page = 1, order, search) {
   try {
+    const searchs = search.trim().split(' ');
+    const firstnameMultipleSearchs = searchs.map((keyword) => (
+      {
+        firstname: {
+          contains: keyword,
+          mode: 'insensitive',
+        },
+      }
+    ));
+
+    const lastnameMultipleSearchs = searchs.map((keyword) => (
+      {
+        lastname: {
+          contains: keyword,
+          mode: 'insensitive',
+        },
+      }
+    ));
+
+    const multipleSearch = [...firstnameMultipleSearchs, ...lastnameMultipleSearchs];
+    const take = 4;
+    const skip = calculateSkip(page, take);
+
     return user.findMany({
+      where: {
+        OR: multipleSearch,
+      },
       select,
+      skip,
+      take,
+      orderBy: {
+        created_at: order,
+      },
     });
   } catch (error) {
     return Promise.reject(error);
@@ -119,6 +151,14 @@ async function updateUserActive(id, is_active = true) {
   }
 }
 
+async function countUsers() {
+  try {
+    return user.count();
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
 module.exports = {
   createUser,
   updateUser,
@@ -127,4 +167,5 @@ module.exports = {
   findOneUser,
   findOneUserByID,
   updateUserActive,
+  countUsers,
 };
