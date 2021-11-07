@@ -65,7 +65,9 @@ router.get('/:id', async (req, res, next) => {
 
 router.get('/', async (req, res, next) => {
   try {
-    const { page = 1, limit = 0, order = 'desc', search } = req.query;
+    const {
+      page = 1, limit = 0, order = 'desc', search,
+    } = req.query;
 
     const total = await countUsers();
 
