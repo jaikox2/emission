@@ -1,16 +1,14 @@
-function calculateSkip(page, take) {
-  return (parseInt(page, 10) - 1) * take;
+function calculateSkip(page, limit) {
+  return (parseInt(page, 10) - 1) * limit;
 }
 
-function calculatePages(total, take = 4) {
+function calculatePages(total, limit = 4) {
   let pages = 1;
 
-  if (total > take) {
-    pages = total / take;
+  if (total > limit && limit > 0) {
+    pages = total / limit;
 
-    if (pages > Math.floor(pages)) {
-      pages = Math.floor(pages) + 1;
-    }
+    pages = Math.ceil(pages);
   }
 
   return pages;

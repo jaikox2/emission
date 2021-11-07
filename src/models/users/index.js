@@ -70,7 +70,7 @@ async function deleteUser(id) {
   }
 }
 
-function findUsers(page = 1, order, search) {
+function findUsers(page = 1, order, search, take = 4, limit) {
   try {
     const searchs = search.trim().split(' ');
     const firstnameMultipleSearchs = searchs.map((keyword) => (
@@ -92,8 +92,7 @@ function findUsers(page = 1, order, search) {
     ));
 
     const multipleSearch = [...firstnameMultipleSearchs, ...lastnameMultipleSearchs];
-    const take = 4;
-    const skip = calculateSkip(page, take);
+    const skip = calculateSkip(page, limit);
 
     return user.findMany({
       where: {
