@@ -25,6 +25,7 @@ module.exports = async (req, res, next) => {
     const decoded = await verifyToken(accessToken);
 
     if (decoded) {
+      req.body.user_id = decoded.data.id;
       return next();
     }
 
