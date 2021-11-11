@@ -70,28 +70,8 @@ async function deleteUser(id) {
   }
 }
 
-function findUsers(page = 1, order, search, take = 4, limit) {
+function findUsers(page = 1, order, multipleSearch, take = 4, limit) {
   try {
-    const searchs = search.trim().split(' ');
-    const firstnameMultipleSearchs = searchs.map((keyword) => (
-      {
-        firstname: {
-          contains: keyword,
-          mode: 'insensitive',
-        },
-      }
-    ));
-
-    const lastnameMultipleSearchs = searchs.map((keyword) => (
-      {
-        lastname: {
-          contains: keyword,
-          mode: 'insensitive',
-        },
-      }
-    ));
-
-    const multipleSearch = [...firstnameMultipleSearchs, ...lastnameMultipleSearchs];
     const skip = calculateSkip(page, limit);
 
     return user.findMany({
@@ -150,9 +130,15 @@ async function updateUserActive(id, is_active = true) {
   }
 }
 
-async function countUsers() {
+async function countUsers(multipleSearch) {
   try {
-    return user.count();
+    const users = await user.findMany({
+      where: {
+        OR: multipleSearch,
+      },
+    });
+
+    return users.length;
   } catch (error) {
     return Promise.reject(error);
   }

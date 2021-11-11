@@ -69,12 +69,33 @@ router.get('/', async (req, res, next) => {
       page = 1, limit = 0, order = 'desc', search,
     } = req.query;
 
-    const total = await countUsers();
+    const searchs = search.trim().split(' ');
+    const firstnameMultipleSearchs = searchs.map((keyword) => (
+      {
+        firstname: {
+          contains: keyword,
+          mode: 'insensitive',
+        },
+      }
+    ));
+
+    const lastnameMultipleSearchs = searchs.map((keyword) => (
+      {
+        lastname: {
+          contains: keyword,
+          mode: 'insensitive',
+        },
+      }
+    ));
+
+    const multipleSearch = [...firstnameMultipleSearchs, ...lastnameMultipleSearchs];
+
+    const total = await countUsers(multipleSearch);
 
     let take = parseInt(limit, 10);
     if (limit <= 0) { take = total; }
 
-    const result = await findUsers(page, order, search, take, limit);
+    const result = await findUsers(page, order, multipleSearch, take, limit);
 
     const pages = calculatePages(total, limit);
 
