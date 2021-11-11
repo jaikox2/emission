@@ -19,6 +19,53 @@ model User {
   is_active Boolean @default(false)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  sourcesAddby EmissionSources[] @relation("SourcesAddby")
+  sourcesOwner EmissionSources[] @relation("SourcesOwner")
   @@index([ID])
   @@index([password])
 }
+
+model EmissionActivityTypes {
+  @@map("emission_activity_types")
+  id  Int @id @default(autoincrement())
+  name String @db.VarChar(512)
+  template_file_name String @db.Text
+  emission_sources EmissionSources[]
+}
+
+model EmissionSources {
+  @@map("emission_sources")
+  id  Int @id @default(autoincrement())
+  file_name String @db.Text
+  scenario_name String? @db.VarChar(512) @unique
+  description String? @db.Text
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  user User @relation(name: "SourcesAddby", fields: [user_id], references: [id])
+  user_id Int
+  owner User? @relation(name: "SourcesOwner", fields: [owner_id], references: [id])
+  owner_id Int?
+  emission_activity_types EmissionActivityTypes? @relation(fields: [emission_activity_types_id], references: [id])
+  emission_activity_types_id Int?
+  // emission_sources_types EmissionSourcesTypes[]
+}
+
+// model EmissionSourcesTypes {
+//   @@map("emission_sources_types")
+//   id  Int @id @default(autoincrement())
+//   activity String @db.VarChar(255)
+//   sector String @db.VarChar(255)
+//   technology String @db.VarChar(255)
+//   emission_sources EmissionSources? @relation(fields: [emission_sources_id], references: [id])
+//   emission_sources_id Int?
+//   emission_values EmissionValues[]
+// }
+
+// model EmissionValues {
+//   @@map("emission_values")
+//   id  Int @id @default(autoincrement())
+//   key String @db.VarChar(255)
+//   value Decimal
+//   emission_sources_types EmissionSourcesTypes? @relation(fields: [emission_sources_types_id], references: [id])
+//   emission_sources_types_id Int?
+// }
