@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const logger = require('morgan');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -16,7 +17,9 @@ app.use(logger('dev', {
 }));
 
 // public route
+app.use('/images', express.static(path.join(__dirname, '../public/uploads/images')));
 app.use('/api', require('./routes/upload'));
+app.use('/api/excel/download', require('./routes/download'));
 app.use('/api', require('./routes/authentication'));
 
 // authorize middleware
@@ -24,6 +27,8 @@ app.use(require('./middlewares/authen'));
 
 // permission route
 app.use('/api/users', require('./routes/user'));
+app.use('/api/emission/types', require('./routes/emission_type'));
+app.use('/api/scenarios', require('./routes/scenario'));
 
 // error handler
 app.use((err, req, res, next) => {
