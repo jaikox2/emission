@@ -17,7 +17,7 @@ app.use(logger('dev', {
 }));
 
 // public route
-app.use('/images', express.static(path.join(__dirname, '../public/uploads/images')));
+app.use('/api/images', express.static(path.join(__dirname, '../public/uploads/images')));
 app.use('/api', require('./routes/upload'));
 app.use('/api/excel/download', require('./routes/download'));
 app.use('/api', require('./routes/authentication'));
