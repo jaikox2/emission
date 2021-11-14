@@ -14,7 +14,7 @@ router.post('/profile/upload',
         return next(err);
       }
 
-      return res.status(200).send(req.file.filename);
+      return res.status(200).send({ name: req.file.filename });
     } catch (error) {
       error.status = 500;
       return next(error);
@@ -30,7 +30,7 @@ router.post('/excel/upload',
         return next(err);
       }
 
-      return res.status(200).send(req.file.filename);
+      return res.status(200).send({ name: req.file.filename });
     } catch (error) {
       error.status = 500;
       return next(error);

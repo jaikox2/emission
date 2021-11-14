@@ -42,7 +42,7 @@ app.use((err, req, res, next) => {
 // server error
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
-  res.status(400).send(err.message);
+  res.status(400).send({ message: err.message });
 });
 
 // app listen
