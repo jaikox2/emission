@@ -37,16 +37,19 @@ async function createUser(firstname, lastname, ID, email, password, profile) {
 
 async function updateUser(id, firstname, lastname, ID, email, password, profile) {
   try {
-    const passwordHash = hashPassword(password);
+    const data = {
+      firstname,
+      lastname,
+      ID,
+      email,
+      profile,
+    };
+    if (password) {
+      const passwordHash = hashPassword(password);
+      data.password = passwordHash;
+    }
     return await user.update({
-      data: {
-        firstname,
-        lastname,
-        ID,
-        email,
-        password: passwordHash,
-        profile,
-      },
+      data,
       where: {
         id: parseInt(id, 10),
       },
