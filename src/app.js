@@ -32,6 +32,9 @@ app.use('/api/scenarios', require('./routes/scenario'));
 
 // error handler
 app.use((err, req, res, next) => {
+  if (err.code === 'ENOENT') {
+    return res.status(404).send('ไม่พบไฟล์');
+  }
   if (err.status === 500) {
     console.error(err);
     return res.status(500).send('ข้อผิดพลาดของเซิร์ฟเวอร์');

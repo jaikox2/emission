@@ -2,7 +2,7 @@
 const readXlsxFile = require('read-excel-file/node');
 
 async function getDataInSheet(file_name, sheetName) {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     readXlsxFile(`./public/uploads/excels/${file_name}`, { sheet: sheetName }).then((data) => {
       let headers = data[0];
       const source = data.slice(1);
@@ -24,14 +24,17 @@ async function getDataInSheet(file_name, sheetName) {
       ));
       headers = headers.map((header) => header.toString());
       resolve({ headers, values: sourceInObject });
+    }).catch((err) => {
+      if (err) reject(err);
     });
   });
 }
 
 function getSheets(file_name) {
   return new Promise((resolve, reject) => {
-    readXlsxFile(`./public/uploads/excels/${file_name}`, { getSheets: true }).then((sheets, err) => {
+    readXlsxFile(`./public/uploads/excels/${file_name}`, { getSheets: true }).then((sheets) => {
       resolve(sheets);
+    }).catch((err) => {
       if (err) reject(err);
     });
   });
