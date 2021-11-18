@@ -95,12 +95,12 @@ function updateScenario(id, scenario_name, description,
   }
 }
 
-function deleteScenario(id) {
+function deleteScenario(ids = []) {
   try {
-    return emissionSources.delete({
-      select,
+    const idsInt = ids.map((id) => parseInt(id, 10));
+    return emissionSources.deleteMany({
       where: {
-        id: parseInt(id, 10),
+        id: { in: idsInt },
       },
     });
   } catch (error) {

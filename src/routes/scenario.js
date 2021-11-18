@@ -48,11 +48,11 @@ router.put('/:id', async (req, res, next) => {
   }
 });
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/', async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { ids } = req.query;
 
-    const result = await deleteScenario(id);
+    const result = await deleteScenario(ids);
 
     return res.status(200).send(result);
   } catch (error) {
