@@ -66,7 +66,7 @@ router.get('/:id', async (req, res, next) => {
 router.get('/', async (req, res, next) => {
   try {
     const {
-      page = 1, limit = 0, order = 'desc', search,
+      page = 1, limit = 0, orderby = 'name', search,
     } = req.query;
 
     const searchs = search.trim().split(' ');
@@ -95,7 +95,7 @@ router.get('/', async (req, res, next) => {
     let take = parseInt(limit, 10);
     if (limit <= 0) { take = total; }
 
-    const result = await findUsers(page, order, multipleSearch, take, limit);
+    const result = await findUsers(page, orderby, multipleSearch, take, limit);
 
     const pages = calculatePages(total, limit);
 

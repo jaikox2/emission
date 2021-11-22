@@ -73,9 +73,11 @@ async function deleteUser(id) {
   }
 }
 
-function findUsers(page = 1, order, multipleSearch, take = 4, limit) {
+function findUsers(page = 1, orderby, multipleSearch, take = 4, limit) {
   try {
     const skip = calculateSkip(page, limit);
+    const orderBy = {};
+    orderBy[orderby] = 'desc';
 
     return user.findMany({
       where: {
@@ -84,9 +86,7 @@ function findUsers(page = 1, order, multipleSearch, take = 4, limit) {
       select,
       skip,
       take,
-      orderBy: {
-        created_at: order,
-      },
+      orderBy,
     });
   } catch (error) {
     return Promise.reject(error);
