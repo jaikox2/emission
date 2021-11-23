@@ -29,6 +29,7 @@ app.use(require('./middlewares/authen'));
 app.use('/api/users', require('./routes/user'));
 app.use('/api/emission/types', require('./routes/emission_type'));
 app.use('/api/scenarios', require('./routes/scenario'));
+app.use('/api/activity', require('./routes/activity'));
 
 // error handler
 app.use((err, req, res, next) => {
