@@ -15,6 +15,15 @@ function filterActivity(data, sectors = [], rangestart, rangeend, activities = [
   return data;
 }
 
+function filterTechnology(data, technologies = []) {
+  if (technologies.length > 0) {
+    data = data.filter((item) => technologies.includes(item.technology));
+  }
+
+  return data;
+}
+
 module.exports = {
   filterActivity,
+  filterTechnology,
 };
