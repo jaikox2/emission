@@ -16,8 +16,13 @@ async function getDataInSheet(file_name, sheetName) {
           // eslint-disable-next-line no-param-reassign
           // total[headers[index]] = cerrent;
           // } else {
-          // eslint-disable-next-line no-param-reassign
-          total[headers[index]] = cerrent;
+          if (!Number.isNaN(parseFloat(cerrent))) {
+            // eslint-disable-next-line no-param-reassign
+            total[headers[index]] = parseFloat(cerrent).toFixed(2);
+          } else {
+            // eslint-disable-next-line no-param-reassign
+            total[headers[index]] = cerrent;
+          }
           // }
           return total;
         }, {})

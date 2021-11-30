@@ -12,7 +12,7 @@ async function getDataInSheet(file_name, scenarioName) {
           if (Number.isInteger(headers[index])) {
             total.data.push({
               year: headers[index],
-              value: cerrent,
+              value: parseFloat(cerrent).toFixed(2),
               name: scenarioName,
               sector: total.Sector,
               activity: total.Activity,
