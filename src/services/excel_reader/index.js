@@ -18,7 +18,7 @@ async function getDataInSheet(file_name, sheetName) {
           // } else {
           if (!Number.isNaN(parseFloat(cerrent))) {
             // eslint-disable-next-line no-param-reassign
-            total[headers[index]] = parseFloat(cerrent).toFixed(2);
+            total[headers[index]] = parseFloat(cerrent).toFixed(2) * 1;
           } else {
             // eslint-disable-next-line no-param-reassign
             total[headers[index]] = cerrent;
