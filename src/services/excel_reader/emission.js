@@ -36,8 +36,12 @@ async function getDataInSheet(file_name, scenarioName) {
 async function getMultiFilesDataInSheet(scenarios) {
   try {
     const dataScenarios = await Promise.all(scenarios.map(async (scenario) => {
-      const data = await getDataInSheet(scenario.file, scenario.name);
-      return data;
+      try {
+        const data = await getDataInSheet(scenario.file, scenario.name);
+        return data;
+      } catch (error) {
+        return Promise.reject(error);
+      }
     }));
 
     return [].concat(...dataScenarios);

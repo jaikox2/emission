@@ -2,9 +2,9 @@
 /* eslint-disable camelcase */
 const readXlsxFile = require('read-excel-file/node');
 
-async function getDataInSheet(file_name, scenarioName) {
+async function getDataInSheet(file_name, scenarioName, sheet) {
   return new Promise((resolve, reject) => {
-    readXlsxFile(`./public/uploads/excels/${file_name}`, { sheet: '1. FC' }).then((data) => {
+    readXlsxFile(`./public/uploads/excels/${file_name}`, { sheet }).then((data) => {
       const headers = data[0];
       const source = data.slice(1);
       const sourceInObject = source.reduce((totalItem, item) => {
@@ -32,11 +32,15 @@ async function getDataInSheet(file_name, scenarioName) {
   });
 }
 
-async function getMultiFilesDataInSheet(scenarios) {
+async function getMultiFilesDataInSheet(scenarios, sheet) {
   try {
     const dataScenarios = await Promise.all(scenarios.map(async (scenario) => {
-      const data = await getDataInSheet(scenario.file, scenario.name);
-      return data;
+      try {
+        const data = await getDataInSheet(scenario.file, scenario.name, sheet);
+        return data;
+      } catch (error) {
+        return Promise.reject(error);
+      }
     }));
 
     return [].concat(...dataScenarios);

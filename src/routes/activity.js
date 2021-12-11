@@ -11,9 +11,10 @@ router.post('/', async (req, res, next) => {
       rangestart = 2010,
       rangeend = 2050,
       activities,
+      sheet = '1. FC',
     } = req.body;
 
-    let result = await getMultiFilesDataInSheet(scenarios);
+    let result = await getMultiFilesDataInSheet(scenarios, sheet);
     result = filterActivity(result, sectors, rangestart, rangeend, activities);
 
     return res.status(200).send(result);

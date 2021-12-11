@@ -37,6 +37,9 @@ app.use((err, req, res, next) => {
   if (err.code === 'ENOENT') {
     return res.status(404).send('ไม่พบไฟล์');
   }
+  if (err.message && err.message.includes('Sheet')) {
+    return res.status(404).send(err.message);
+  }
   if (err.status === 500) {
     console.error(err);
     return res.status(500).send('ข้อผิดพลาดของเซิร์ฟเวอร์');
