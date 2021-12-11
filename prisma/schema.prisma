@@ -30,7 +30,7 @@ model EmissionActivityTypes {
   id  Int @id @default(autoincrement())
   name String @db.VarChar(512)
   template_file_name String @db.Text
-  emission_sources EmissionSources[]
+  // emission_sources EmissionSources[]
 }
 
 model EmissionSources {
@@ -45,8 +45,8 @@ model EmissionSources {
   user_id Int
   owner User? @relation(name: "SourcesOwner", fields: [owner_id], references: [id])
   owner_id Int?
-  emission_activity_types EmissionActivityTypes? @relation(fields: [emission_activity_types_id], references: [id])
-  emission_activity_types_id Int?
+  // emission_activity_types EmissionActivityTypes? @relation(fields: [emission_activity_types_id], references: [id])
+  // emission_activity_types_id Int?
   // emission_sources_types EmissionSourcesTypes[]
 }
 

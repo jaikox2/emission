@@ -21,6 +21,9 @@ app.use('/api/images', express.static(path.join(__dirname, '../public/uploads/im
 app.use('/api', require('./routes/upload'));
 app.use('/api/excel/download', require('./routes/download'));
 app.use('/api', require('./routes/authentication'));
+app.use('/api/activity', require('./routes/activity'));
+app.use('/api/emission', require('./routes/emission'));
+app.use('/api/scenarios', require('./routes/getScenario'));
 
 // authorize middleware
 app.use(require('./middlewares/authen'));
@@ -29,8 +32,6 @@ app.use(require('./middlewares/authen'));
 app.use('/api/users', require('./routes/user'));
 app.use('/api/emission/types', require('./routes/emission_type'));
 app.use('/api/scenarios', require('./routes/scenario'));
-app.use('/api/activity', require('./routes/activity'));
-app.use('/api/emission', require('./routes/emission'));
 
 // error handler
 app.use((err, req, res, next) => {

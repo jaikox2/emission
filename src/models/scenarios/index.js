@@ -28,17 +28,14 @@ const select = {
   owner: {
     select: userSelect,
   },
-  emission_activity_types: true,
 };
 
-async function upsertScenario(scenario_name, description,
-  emission_activity_types_id, owner_id, user_id, file_name) {
+async function upsertScenario(scenario_name, description, owner_id, user_id, file_name) {
   try {
     const emission = await emissionSources.findMany({
       where: {
         scenario_name,
         description,
-        emission_activity_types_id,
         owner_id,
         user_id,
       },
@@ -50,7 +47,6 @@ async function upsertScenario(scenario_name, description,
         where: {
           scenario_name,
           description,
-          emission_activity_types_id,
           owner_id,
           user_id,
         },
@@ -65,7 +61,6 @@ async function upsertScenario(scenario_name, description,
       data: {
         scenario_name,
         description,
-        emission_activity_types_id,
         owner_id,
         user_id,
         file_name,
@@ -76,8 +71,7 @@ async function upsertScenario(scenario_name, description,
   }
 }
 
-function updateScenario(id, scenario_name, description,
-  emission_activity_types_id) {
+function updateScenario(id, scenario_name, description) {
   try {
     return emissionSources.update({
       select,
@@ -87,7 +81,6 @@ function updateScenario(id, scenario_name, description,
       data: {
         scenario_name,
         description,
-        emission_activity_types_id,
       },
     });
   } catch (error) {
@@ -108,12 +101,11 @@ function deleteScenario(ids = []) {
   }
 }
 
-function findScenarios(scenario_name, owner_id, activity_type_id) {
+function findScenarios(scenario_name, owner_id) {
   try {
     const where = {};
     if (scenario_name) where.scenario_name = scenario_name;
     if (owner_id) where.owner_id = parseInt(owner_id, 10);
-    if (activity_type_id) where.emission_activity_types_id = parseInt(activity_type_id, 10);
     return emissionSources.findMany({
       select,
       where,
