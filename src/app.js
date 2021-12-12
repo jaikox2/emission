@@ -21,6 +21,7 @@ app.use('/api/images', express.static(path.join(__dirname, '../public/uploads/im
 app.use('/api', require('./routes/upload'));
 app.use('/api/excel/download', require('./routes/download'));
 app.use('/api', require('./routes/authentication'));
+app.use('/api/users', require('./routes/getUsers'));
 app.use('/api/activity', require('./routes/activity'));
 app.use('/api/emission', require('./routes/emission'));
 app.use('/api/scenarios', require('./routes/getScenario'));
