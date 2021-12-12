@@ -12,9 +12,10 @@ router.post('/', async (req, res, next) => {
       rangeend = 2050,
       activities,
       technologies,
+      sheet = 'Result_PM2.5',
     } = req.body;
 
-    let result = await getMultiFilesDataInSheet(scenarios);
+    let result = await getMultiFilesDataInSheet(scenarios, sheet);
     result = filterActivity(result, sectors, rangestart, rangeend, activities);
     result = filterTechnology(result, technologies);
 
